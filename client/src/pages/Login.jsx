@@ -18,11 +18,15 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset
   } = useForm({
     mode: "onChange",
   });
 
-  const onSubmit = async (data) => {};
+  const onSubmit = async (data) => {
+    console.log(data);
+    reset()
+  };
 
   const [errMsg, setErrMsg] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
