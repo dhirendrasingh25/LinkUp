@@ -1,1 +1,1 @@
-# LinkHub
+# LinkUp
