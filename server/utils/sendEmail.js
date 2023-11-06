@@ -1,6 +1,9 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import { v4 as uuidv4 } from "uuid";
+import { hashString } from "./index.js";
+import Verification from "../models/emailVerification.js";
+import PasswordReset from "../models/passwordRest.js";
 
 dotenv.config();
 
@@ -23,7 +26,7 @@ export const sendVerificationEmail = async (user, res) => {
 
   //   mail options
   const mailOptions = {
-    from: "Dhirendra Singh",
+    from: AUTH_EMAIL,
     to: email,
     subject: "Email Verification",
     html: `<div
