@@ -10,7 +10,7 @@ dotenv.config();
 const { AUTH_EMAIL, AUTH_PASSWORD, APP_URL } = process.env;
 
 let transporter = nodemailer.createTransport({
-  host: "smtp-mail.outlook.com",
+  service: "gmail",
   auth: {
     user: AUTH_EMAIL,
     pass: AUTH_PASSWORD,
@@ -18,11 +18,14 @@ let transporter = nodemailer.createTransport({
 });
 
 export const sendVerificationEmail = async (user, res) => {
-  const { _id, email, lastName } = user;
+  // console.log(user);
+  const { _id, email, firstName, lastName } = user;
 
   const token = _id + uuidv4();
+  // console.log(`token tk ${token}`);
 
   const link = APP_URL + "users/verify/" + _id + "/" + token;
+  // console.log(link);
 
   //   mail options
   const mailOptions = {
@@ -33,7 +36,7 @@ export const sendVerificationEmail = async (user, res) => {
       style='font-family: Arial, sans-serif; font-size: 20px; color: #333; background-color: #f7f7f7; padding: 20px; border-radius: 5px;'>
       <h3 style="color: rgb(8, 56, 188)">Please verify your email address</h3>
       <hr>
-      <h4>Hi ${lastName},</h4>
+      <h4>Hi ${firstName} ${lastName},</h4>
       <p>
           Please verify your email address so we can know that it's really you.
           <br>
@@ -45,7 +48,7 @@ export const sendVerificationEmail = async (user, res) => {
       </p>
       <div style="margin-top: 20px;">
           <h5>Best Regards</h5>
-          <h5>ShareFun Team</h5>
+          <h5>Dhirendra Singh</h5>
       </div>
   </div>`,
   };
@@ -59,6 +62,8 @@ export const sendVerificationEmail = async (user, res) => {
       createdAt: Date.now(),
       expiresAt: Date.now() + 3600000,
     });
+    // console.log("new verified email");
+    // console.log(newVerifiedEmail);
 
     if (newVerifiedEmail) {
       transporter
@@ -76,6 +81,7 @@ export const sendVerificationEmail = async (user, res) => {
         });
     }
   } catch (error) {
+    // console.log("error");
     console.log(error);
     res.status(404).json({ message: "Something went wrong" });
   }
