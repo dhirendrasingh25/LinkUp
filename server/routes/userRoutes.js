@@ -23,7 +23,7 @@ userRouter.get("/verify/:userId/:token", verifyEmail);
 
 // PASSWORD RESET
 userRouter.post("/request-passwordreset", requestPasswordReset);
-userRouter.get("/reset-password/:userId/:token", resetPassword);
+userRouter.get("/reset-password-user/:userId/:token", resetPassword);
 userRouter.post("/reset-password", changePassword);
 
 // user routes
