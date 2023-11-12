@@ -7,6 +7,7 @@ import express from "express";
 import mongoose from "mongoose";
 import errorMiddleware from "./middlewares/errorMiddleware.js";
 import authRouter from "./routes/authRoutes.js";
+import userRouter from "./routes/userRoutes.js";
 
 dotenv.config();
 
@@ -32,7 +33,9 @@ app.use(express.json());
 
 app.use(errorMiddleware);
 
+// Routes
 app.use("/auth", authRouter);
+app.use("/users", userRouter);
 
 app.listen(PORT, () => {
   console.log(`Server started at ${PORT}`);
