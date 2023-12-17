@@ -106,7 +106,7 @@ export const requestPasswordReset = async (req, res) => {
 
 export const resetPassword = async (req, res) => {
   const { userId, token } = req.params;
-
+  // console.log("1");
   try {
     // find record
     const user = await Users.findById(userId);
@@ -137,6 +137,7 @@ export const resetPassword = async (req, res) => {
         const message = "Invalid reset password link. Please try again";
         res.redirect(`/users/resetpassword?status=error&message=${message}`);
       } else {
+        // console.log("here");
         res.redirect(`/users/resetpassword?type=reset&id=${userId}`);
       }
     }

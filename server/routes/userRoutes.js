@@ -23,7 +23,7 @@ userRouter.get("/verify/:userId/:token", verifyEmail);
 
 // PASSWORD RESET
 userRouter.post("/request-passwordreset", requestPasswordReset);
-userRouter.get("/reset-password-user/:userId/:token", resetPassword);
+userRouter.get("/reset-password/:userId/:token", resetPassword);
 userRouter.post("/reset-password", changePassword);
 
 // user routes
@@ -44,11 +44,11 @@ userRouter.post("/profile-view", userAuth, profileViews);
 userRouter.post("/suggested-friends", userAuth, suggestedFriends);
 
 userRouter.get("/verified", (req, res) => {
-  res.sendFile(path.join(__dirname, "./views/verifiedpage.html"));
+  res.sendFile(path.join(__dirname, "./views/build", "index.html"));
 });
 
 userRouter.get("/resetpassword", (req, res) => {
-  res.sendFile(path.join(__dirname, "./views/verifiedpage.html"));
+  res.sendFile(path.join(__dirname, "./views/build", "index.html"));
 });
 
 export default userRouter;

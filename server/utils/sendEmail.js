@@ -25,7 +25,7 @@ export const sendVerificationEmail = async (user, res) => {
   // console.log(`token tk ${token}`);
 
   const link = APP_URL + "users/verify/" + _id + "/" + token;
-  // console.log(link);
+  console.log(link);
 
   //   mail options
   const mailOptions = {
@@ -89,10 +89,10 @@ export const sendVerificationEmail = async (user, res) => {
 
 export const resetPasswordLink = async (user, res) => {
   const { _id, email } = user;
-
+  console.log(APP_URL);
   const token = _id + uuidv4();
   const link = APP_URL + "users/reset-password/" + _id + "/" + token;
-
+  console.log(link);
   //   mail options
   const mailOptions = {
     from: "Dhirendra Singh",

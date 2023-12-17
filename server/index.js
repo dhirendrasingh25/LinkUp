@@ -8,12 +8,15 @@ import mongoose from "mongoose";
 import errorMiddleware from "./middlewares/errorMiddleware.js";
 import authRouter from "./routes/authRoutes.js";
 import userRouter from "./routes/userRoutes.js";
+import path from "path";
 
 dotenv.config();
 
 const app = express();
 
 const PORT = process.env.PORT || 8008;
+
+const __dirname = path.resolve(path.dirname(""));
 
 async function dbConnection() {
   await mongoose.connect(process.env.MONGODB_URL);
@@ -32,6 +35,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 app.use(errorMiddleware);
+app.use(express.static(path.join(__dirname, "./views/build")));
 
 // Routes
 app.use("/auth", authRouter);
