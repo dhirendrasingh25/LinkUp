@@ -8,6 +8,7 @@ import mongoose from "mongoose";
 import errorMiddleware from "./middlewares/errorMiddleware.js";
 import authRouter from "./routes/authRoutes.js";
 import userRouter from "./routes/userRoutes.js";
+import postRoute from "./routes/postRoutes.js";
 import path from "path";
 
 dotenv.config();
@@ -40,6 +41,7 @@ app.use(express.static(path.join(__dirname, "./views/build")));
 // Routes
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
+app.use("/posts", postRoute);
 
 app.listen(PORT, () => {
   console.log(`Server started at ${PORT}`);
