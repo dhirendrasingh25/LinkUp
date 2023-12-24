@@ -128,11 +128,11 @@ const Home = () => {
     }    
   }
   const getUser = async ()=>{
-    console.log(user?._id);
+    // console.log(user?._id);
     const res= await getUserInfo(user?.token)
-    console.log(res);
+    // console.log(res);
     const newData={token:user?.token ,...res}
-    console.log(newData);
+    // console.log(newData);
     dispatch(UserLogin(newData))
   }
 

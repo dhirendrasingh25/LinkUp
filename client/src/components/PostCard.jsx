@@ -8,9 +8,22 @@ import { useForm } from "react-hook-form";
 import TextInput from "./TextInput";
 import Loading from "./Loading";
 import CustomButton from "./CustomButton";
-import { postComments } from "../assets/data";
+import { apiRequest } from "../utils";
 // import { likePost } from "../utils";
 
+
+const getPostComment=async()=>{
+  try {
+    const res =await apiRequest({
+      url:"/posts/comments/"+id,
+      method:"GET"
+    })
+    console.log(data);
+    return res?.data
+  } catch (error) {
+   console.log(error); 
+  }
+}
 
 const ReplyCard = ({ reply, user, handleLike }) => {
   return (
@@ -130,7 +143,8 @@ const PostCard = ({ post, user, deletePost ,likePost}) => {
 
   const getComments = async () => {
     setReplyComments(0);
-    setComments(postComments);
+    const result = await getPostComment(id)
+    setComments(result);
     setLoading(false);
   };
   const handleLike = async (uri) => {
