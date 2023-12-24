@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { TbSocial } from "react-icons/tb";
@@ -12,8 +12,19 @@ import Loading from "../components/Loading";
 import TextInput from "../components/TextInput";
 
 import BgImage from '../assets/BgImage.gif'
+import { UserLogin } from "../redux/userSlice";
+import { apiRequest } from "../utils";
+
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+
+
+  const [errMsg, setErrMsg] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -25,12 +36,34 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     console.log(data);
-    reset()
+    setIsSubmitting(true)
+    try {
+      const res = await apiRequest({
+        url: "/auth/login",
+        method: "POST",
+        data:data,
+      });
+      console.log(res);
+      if(res.success){
+        setErrMsg("")
+        const newData={ token:res?.token , ...res?.user}
+        console.log(newData);
+        dispatch(UserLogin(newData))
+        console.log("here");
+        navigate('/');
+        
+      }else{
+        setErrMsg({status:"failed" , message:"Invalid Crediantials or Email not verified"})
+      }
+      setIsSubmitting(false)
+
+    } catch (error) {
+      console.log(error);
+      setIsSubmitting(false)
+
+    }
   };
 
-  const [errMsg, setErrMsg] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const dispatch = useDispatch();
   return (
     <div className='bg-bgColor w-full h-[100vh] flex items-center justify-center p-6'>
       <div className='w-full md:w-2/3 h-fit lg:h-full 2xl:h-5/6 py-8 lg:py-0 flex bg-primary rounded-xl overflow-hidden shadow-xl'>
@@ -93,7 +126,7 @@ const Login = () => {
                   errMsg?.status == "failed"
                     ? "text-[#f64949fe]"
                     : "text-[#2ba150fe]"
-                } mt-0.5`}
+                } mt-0.5 text-center`}
               >
                 {errMsg?.message}
               </span>

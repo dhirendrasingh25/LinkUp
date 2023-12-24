@@ -9,6 +9,8 @@ import TextInput from "./TextInput";
 import Loading from "./Loading";
 import CustomButton from "./CustomButton";
 import { postComments } from "../assets/data";
+// import { likePost } from "../utils";
+
 
 const ReplyCard = ({ reply, user, handleLike }) => {
   return (
@@ -118,7 +120,7 @@ const CommentForm = ({ user, id, replyAt, getComments }) => {
   );
 };
 
-const PostCard = ({ post, user, deletePost, likePost }) => {
+const PostCard = ({ post, user, deletePost ,likePost}) => {
   const [showAll, setShowAll] = useState(0);
   const [showReply, setShowReply] = useState(0);
   const [comments, setComments] = useState([]);
@@ -128,11 +130,15 @@ const PostCard = ({ post, user, deletePost, likePost }) => {
 
   const getComments = async () => {
     setReplyComments(0);
-
     setComments(postComments);
     setLoading(false);
   };
-  const handleLike = async () => {};
+  const handleLike = async (uri) => {
+    //  console.log(uri);
+    // console.log(user?.token);
+    await  likePost(uri)
+    await  getComments(post?._id)
+  };
 
   return (
     <div className='mb-2 bg-primary p-4 rounded-xl'>
@@ -198,7 +204,8 @@ const PostCard = ({ post, user, deletePost, likePost }) => {
         className='mt-4 flex justify-between items-center px-3 py-2 text-ascent-2
       text-base border-t border-[#66666645]'
       >
-        <p className='flex gap-2 items-center text-base cursor-pointer'>
+        <p className='flex gap-2 items-center text-base cursor-pointer'
+        onClick={()=>handleLike(`/posts/like/${post?._id}`)}>
           {post?.likes?.includes(user?._id) ? (
             <BiSolidLike size={20} color='blue' />
           ) : (

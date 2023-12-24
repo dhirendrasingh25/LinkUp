@@ -15,7 +15,7 @@ function Layout(){
   const {user}= useSelector((state)=>state.user)
  
   const location= useLocation()
-  console.log(user);
+  // console.log(user);
 
   return user?.token?(
     <Outlet />
@@ -45,7 +45,7 @@ const App = () => {
   }, [dispatch]);
 
   const {theme} = useSelector((state)=>state.theme)
-  console.log(theme);
+  // console.log(theme);
 
   return (
     <div data-theme={theme} class='w-full min-h-[100vh]'>

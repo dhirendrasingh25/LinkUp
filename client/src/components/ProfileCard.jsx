@@ -16,9 +16,10 @@ import NoProfile  from "../assets/userprofile.png";
 import { UpdateProfile } from "../redux/userSlice";
 
 const ProfileCard = ({ user }) => {
+ 
   const { user: data, edit } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
+  // console.log(user?._id === data?._id );
   return (
     <div>
       <div className='w-full bg-primary flex flex-col items-center shadow-sm rounded-xl px-6 py-4 '>
@@ -92,7 +93,7 @@ const ProfileCard = ({ user }) => {
           </div>
         </div>
 
-        <div className='w-full flex flex-col gap-4 py-4 pb-6'>
+        {/* <div className='w-full flex flex-col gap-4 py-4 pb-6'>
           <p className='text-ascent-1 text-lg font-semibold'>Social Profile</p>
 
           <div className='flex gap-2 items-center text-ascent-2'>
@@ -107,7 +108,7 @@ const ProfileCard = ({ user }) => {
             <BsFacebook className=' text-xl text-ascent-1' />
             <span>Facebook</span>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

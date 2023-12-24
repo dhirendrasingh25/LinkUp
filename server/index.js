@@ -10,10 +10,14 @@ import authRouter from "./routes/authRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 import postRoute from "./routes/postRoutes.js";
 import path from "path";
+import NodeCache from "node-cache";
 
 dotenv.config();
 
 const app = express();
+const nodeCache = new NodeCache({
+  stdTTL: 60,
+});
 
 const PORT = process.env.PORT || 8008;
 

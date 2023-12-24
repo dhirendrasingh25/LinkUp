@@ -169,8 +169,11 @@ export const likePost = async (req, res, next) => {
   try {
     const { userId } = req.body.user;
     const { id } = req.params;
+    // console.log(req.body);
+    // console.log(req.params);
 
     const post = await Posts.findById(id);
+    console.log(post);
 
     const index = post.likes.findIndex((pid) => pid === String(userId));
 

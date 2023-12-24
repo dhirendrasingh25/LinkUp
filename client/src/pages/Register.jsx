@@ -13,7 +13,14 @@ import Loading from "../components/Loading";
 import TextInput from "../components/TextInput";
 import BgImage from '../assets/BgImage.gif'
 
+
+
+import { apiRequest } from "../utils";
+
 const Register = () => {
+  const [errMsg, setErrMsg] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -26,12 +33,33 @@ const Register = () => {
 
   const onSubmit = async (data) => {
     console.log(data);
-    reset()
+    setIsSubmitting(true)
+    try {
+      const res = await apiRequest({
+        url: "/auth/register",
+        method: "POST",
+        data:data,
+      });
+      console.log(res.status);
+      if(res?.status === "failed"){
+        setErrMsg(res)
+      }else{
+        setErrMsg(res)
+        setInterval(()=>{
+          window.location.replace('/login')
+        },5000)
+      }
+      setIsSubmitting(false)
+
+    } catch (error) {
+      console.log(error);
+      setIsSubmitting(false)
+
+    }
+     reset()
   };
 
-  const [errMsg, setErrMsg] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const dispatch = useDispatch();
+  
 
   return (
     <div className='bg-bgColor w-full h-[100vh] flex items-center justify-center p-6'>

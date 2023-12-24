@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CustomButton from "../components/CustomButton";
 import EditProfile from "../components/EditProfile";
 import FriendsCard from "../components/FriendsCard";
@@ -9,29 +9,102 @@ import ProfileCard from "../components/ProfileCard";
 import TextInput from "../components/TextInput";
 import TopBar from "../components/TopBar";
 
-import { suggest, requests, posts } from "../assets/data";
+import { suggest, requests} from "../assets/data";
 import { Link } from "react-router-dom";
 import  NoProfile from "../assets/userprofile.png";
 import { BsFiletypeGif, BsPersonFillAdd } from "react-icons/bs";
 import { BiImages, BiSolidVideo } from "react-icons/bi";
 import { useForm } from "react-hook-form";
+import { apiRequest, fetchPosts, handleFileUpload, likePost } from "../utils";
+import { useEffect } from "react";
 
 const Home = () => {
   const { user, edit } = useSelector((state) => state.user);
   const [friendRequest, setFriendRequest] = useState(requests);
   const [suggestedFriends, setSuggestedFriends] = useState(suggest);
+  const {posts}= useSelector((state)=>state.posts)
   const [errMsg, setErrMsg] = useState("");
   const [file, setFile] = useState(null);
   const [posting, setPosting] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const dispatch = useDispatch()
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
-  const handlePostSubmit = async (data) => {};
+  const handlePostSubmit = async (data) => {
+    setPosting(true)
+    setErrMsg("")
+    try {
+      const uri =file && (await handleFileUpload(file))
+      const newData =uri ? {...data , image: uri}: data;
+      // console.log(newData);
+      const res= await apiRequest({
+        url:'/posts/create-post',
+        data:newData,
+        token:user?.token,
+        method:"POST"
+      })
+      
+      // console.log(res);
+      if(res?.status==="failed"){
+        setErrMsg(res)
+      }else{
+        reset({
+          description:""
+        })
+        setFile(null)
+        setErrMsg("")
+        await fetchPost()
+      }
+      setPosting(false)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const fetchPost = async () => {
+    // console.log(user?.token);
+    await fetchPosts(user?.token,dispatch)
+    setLoading(false)
+  };
+  const handleLikePost = async (uri) => {
+    // console.log('hi');
+    // console.log(uri);
+    // console.log(user?.token);
+    await likePost(uri ,user?.token)
+    await fetchPost()
+  };
+  const handleDelete = async () => {
+    
+  };
+  const fetchFriendRequests = async ()=>{
+
+  }
+  const fetchSuggestedFriends= async ()=>{
+    
+  }
+  const handleFriendRequests = async ()=>{
+
+  }
+  const acceptFriendRequests = async ()=>{
+
+  }
+  const getUser = async ()=>{
+
+  }
+
+  useEffect(() => {
+    setLoading(true)
+    getUser()
+    fetchPost()
+    fetchFriendRequests()
+    fetchSuggestedFriends()
+  }, [])
+  
 
   return (
     <>
@@ -90,7 +163,7 @@ const Home = () => {
                     onChange={(e) => setFile(e.target.files[0])}
                     className='hidden'
                     id='imgUpload'
-                    data-max-size='5120'
+                    data-max-size='512000'
                     accept='.jpg, .png, .jpeg'
                   />
                   <BiImages />
@@ -151,8 +224,8 @@ const Home = () => {
                   key={post?._id}
                   post={post}
                   user={user}
-                  deletePost={() => {}}
-                  likePost={() => {}}
+                  deletePost={handleDelete}
+                  likePost={handleLikePost}
                 />
               ))
             ) : (

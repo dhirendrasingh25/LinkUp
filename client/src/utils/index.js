@@ -1,28 +1,29 @@
 import axios from "axios";
-import { v2 as cloudinary } from "cloudinary";
 import dotenv from "dotenv";
 import { setPosts } from "../redux/postSlice";
+// const cloudId = process.env.REACT_APP_CLOUDNARY_ID;
 
 const APP_URL = "http://localhost:8080";
 
 export const API = axios.create({
   baseURL: APP_URL,
-  responseType: json,
+  responseType: "json",
 });
 
 export const apiRequest = async ({ url, token, data, method }) => {
   try {
-    const result = await apiRequest(url, {
-      method1: method || "GET",
-      data: data,
+    const result = await API(url, {
+      method: method || "GET",
+      data: data || {},
       headers: {
         "content-type": "application/json",
-        Authorization: token ? `Bearer${token}` : "",
+        Authorization: token ? `Bearer ${token}` : "",
       },
     });
     return result?.data;
   } catch (error) {
-    console.log(error.response.data);
+    // console.log(error);
+    // console.log(error.response.data);
     return {
       status: error.response.data.success,
       message: error.response.data.message,
@@ -31,13 +32,17 @@ export const apiRequest = async ({ url, token, data, method }) => {
 };
 
 export const handleFileUpload = async (uploadFile) => {
+  // console.log(uploadFile);
   const formData = new FormData();
   formData.append("file", uploadFile);
-  formData.append("upload_preset", "SOCIALMEDIA");
+  formData.append("upload_preset", "LinkUp");
+  // console.log(formData);
   try {
     const response = await axios.post(
-      `https://api.cloudinary.com/v1_1${process.env.REACT_APP_CLOUDNARY_ID}`
+      `https://api.cloudinary.com/v1_1/dzpmwlc9b/image/upload`,
+      formData
     );
+    // console.log(response);
     return response.data.secure_url;
   } catch (error) {
     console.log(error);
@@ -59,13 +64,15 @@ export const fetchPosts = async (token, dispatch, uri, data) => {
   }
 };
 
-export const likePost = async (token, uri) => {
+export const likePost = async (uri, token) => {
   try {
+    // console.log(uri);
     const res = await apiRequest({
       url: uri,
       token: token,
       method: "POST",
     });
+    // console.log(res);
     return res;
   } catch (error) {
     console.log(error);

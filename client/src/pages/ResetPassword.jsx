@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import CustomButton from "../components/CustomButton";
 import Loading from "../components/Loading";
 import TextInput from "../components/TextInput";
+import { apiRequest } from "../utils";
 
 const ResetPassword = () => {
   const [errMsg, setErrMsg] = useState("");
@@ -20,7 +21,28 @@ const ResetPassword = () => {
 
   const onSubmit = async (data) => {
     console.log(data);
-    reset()
+    setIsSubmitting(true)
+    try {
+      const res = await apiRequest({
+        url: "/users/request-passwordreset",
+        method: "POST",
+        data:data,
+      });
+      console.log(res);
+      if(res?.status === "failed"){
+        setErrMsg(res)
+      }else{
+        setErrMsg(res)
+        setInterval(()=>{
+          window.location.replace('/login')
+        },5000)
+      }
+      setIsSubmitting(false)
+    } catch (error) {
+      console.log(error);
+      setIsSubmitting(false)
+
+    }
   };
 
   return (

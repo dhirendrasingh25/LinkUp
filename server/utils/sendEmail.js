@@ -25,9 +25,10 @@ export const sendVerificationEmail = async (user, res) => {
   // console.log(`token tk ${token}`);
 
   const link = APP_URL + "users/verify/" + _id + "/" + token;
-  console.log(link);
+  // console.log(link);
 
   //   mail options
+
   const mailOptions = {
     from: AUTH_EMAIL,
     to: email,
