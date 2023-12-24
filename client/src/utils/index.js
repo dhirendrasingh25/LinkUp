@@ -82,7 +82,7 @@ export const likePost = async (uri, token) => {
 export const deletePost = async (token, id) => {
   try {
     const res = await apiRequest({
-      url: "/posts" + id,
+      url: "/posts/" + id,
       token: token,
       method: "DELETE",
     });
@@ -94,12 +94,14 @@ export const deletePost = async (token, id) => {
 
 export const getUserInfo = async (token, id) => {
   try {
-    const uri = id === undefined ? "/users/get-user" : "users/get-user/" + id;
+    const uri = id === undefined ? "/users/get-user/" : "users/get-user/" + id;
+    // console.log(uri, token);
     const res = await apiRequest({
       url: uri,
       token: token,
-      method: "DELETE",
+      method: "POST",
     });
+    // console.log(res);
     if (res?.message == "Authentication failed") {
       localStorage.removeItem("user");
       window.alert("User Session Expired . Please Login Again");

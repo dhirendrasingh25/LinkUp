@@ -15,9 +15,7 @@ import NodeCache from "node-cache";
 dotenv.config();
 
 const app = express();
-const nodeCache = new NodeCache({
-  stdTTL: 60,
-});
+const nodeCache = new NodeCache();
 
 const PORT = process.env.PORT || 8008;
 

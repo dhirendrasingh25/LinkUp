@@ -9,19 +9,19 @@ import ProfileCard from "../components/ProfileCard";
 import TextInput from "../components/TextInput";
 import TopBar from "../components/TopBar";
 
-import { suggest, requests} from "../assets/data";
 import { Link } from "react-router-dom";
 import  NoProfile from "../assets/userprofile.png";
 import { BsFiletypeGif, BsPersonFillAdd } from "react-icons/bs";
 import { BiImages, BiSolidVideo } from "react-icons/bi";
 import { useForm } from "react-hook-form";
-import { apiRequest, fetchPosts, handleFileUpload, likePost } from "../utils";
+import { apiRequest, deletePost, fetchPosts, getUserInfo, handleFileUpload, likePost, sendFriendRequest } from "../utils";
 import { useEffect } from "react";
+import { UserLogin } from "../redux/userSlice";
 
 const Home = () => {
   const { user, edit } = useSelector((state) => state.user);
-  const [friendRequest, setFriendRequest] = useState(requests);
-  const [suggestedFriends, setSuggestedFriends] = useState(suggest);
+  const [friendRequest, setFriendRequest] = useState([]);
+  const [suggestedFriends, setSuggestedFriends] = useState([]);
   const {posts}= useSelector((state)=>state.posts)
   const [errMsg, setErrMsg] = useState("");
   const [file, setFile] = useState(null);
@@ -78,23 +78,62 @@ const Home = () => {
     await likePost(uri ,user?.token)
     await fetchPost()
   };
-  const handleDelete = async () => {
-    
+  const handleDelete = async (id) => {
+    await deletePost(user?.token,id)
+    await fetchPost()
   };
   const fetchFriendRequests = async ()=>{
-
+    try {
+      const res= await apiRequest({
+        url:'/users/get-friend-request',
+        token:user?.token,
+        method:"POST"
+      })
+      setFriendRequest(res?.data)
+    } catch (error) {
+      console.log(error);
+    }
   }
   const fetchSuggestedFriends= async ()=>{
-    
+    try {
+      const res= await apiRequest({
+        url:'/users/suggested-friends',
+        token:user?.token,
+        method:"POST"
+      })
+      setSuggestedFriends(res?.data)
+    } catch (error) {
+      console.log(error);
+    }
   }
-  const handleFriendRequests = async ()=>{
-
+  const handleFriendRequests = async (id)=>{
+    try {
+      const res=await sendFriendRequest(user?.token , id)
+      await fetchSuggestedFriends()
+    } catch (error) {
+      console.log(error);
+    }
   }
-  const acceptFriendRequests = async ()=>{
-
+  const acceptFriendRequests = async (id,status)=>{
+    try {
+      const res= await apiRequest({
+        url:'/users/accept-request',
+        token:user?.token,
+        data:{rid:id,status},
+        method:"POST"
+      })
+      setFriendRequest(res?.data)
+    } catch (error) {
+      console.log(error);
+    }    
   }
   const getUser = async ()=>{
-
+    console.log(user?._id);
+    const res= await getUserInfo(user?.token)
+    console.log(res);
+    const newData={token:user?.token ,...res}
+    console.log(newData);
+    dispatch(UserLogin(newData))
   }
 
   useEffect(() => {
@@ -269,10 +308,12 @@ const Home = () => {
                     <div className='flex gap-1'>
                       <CustomButton
                         title='Accept'
+                        onClick={()=>{acceptFriendRequests(_id,"Accepted")}}
                         containerStyles='bg-[#0444a4] text-xs text-white px-1.5 py-1 rounded-full'
                       />
                       <CustomButton
                         title='Deny'
+                        onClick={()=>{acceptFriendRequests(_id,"Denied")}}
                         containerStyles='border border-[#666] text-xs text-ascent-1 px-1.5 py-1 rounded-full'
                       />
                     </div>
@@ -315,7 +356,7 @@ const Home = () => {
                     <div className='flex gap-1'>
                       <button
                         className='bg-[#0444a430] text-sm text-white p-1 rounded'
-                        onClick={() => {}}
+                        onClick={() => {handleFriendRequests(friend?._id)}}
                       >
                         <BsPersonFillAdd size={20} className='text-[#0f52b6]' />
                       </button>

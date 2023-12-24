@@ -323,7 +323,7 @@ export const replyPostComment = async (req, res, next) => {
 export const deletePost = async (req, res, next) => {
   try {
     const { id } = req.params;
-
+    // sconsole.log("Hii" + id);
     await Posts.findByIdAndDelete(id);
 
     res.status(200).json({
@@ -331,6 +331,7 @@ export const deletePost = async (req, res, next) => {
       message: "Deleted successfully",
     });
   } catch (error) {
+    // console.log("Hello");
     console.log(error);
     res.status(404).json({ message: error.message });
   }
