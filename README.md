@@ -1,5 +1,6 @@
 # LinkUp
 Welcome to LinkUp, a social media app where users can connect, share, and engage with each other's content!
+ [Click here to Join LinkUp](https://linkup-ds.netlify.app/).
 
 ### Features
 
@@ -80,3 +81,4 @@ Fork the repository
 Create a new branch for your changes
 Make your changes and commit them
 Push your changes to your fork 5. Create a pull request
+
