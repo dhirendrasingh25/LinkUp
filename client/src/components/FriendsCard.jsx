@@ -1,8 +1,29 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import  NoProfile  from "../assets/userprofile.png";
+import { viewUserProfile } from "../utils";
+import { useSelector } from "react-redux";
 
-const FriendsCard = ({ friends }) => {
+
+
+const FriendsCard = ({friends }) => {
+
+  const {user}= useSelector((state)=>state.user)
+  // console.log(user);
+  const profileView= async(id)=>{
+    // console.log(friends);
+    // console.log(user?.token,id);
+    // console.log(user?._id,id);
+    // console.log(user?._id==id);
+    if(user?._id==id){
+      return
+    }else{
+      // console.log("herr"); 
+      await viewUserProfile(user?.token,id)
+    }
+    
+    
+  }
   return (
     <div>
       <div className='w-full bg-primary shadow-sm rounded-lg px-6 py-5'>
@@ -17,6 +38,7 @@ const FriendsCard = ({ friends }) => {
               to={"/profile/" + friend?._id}
               key={friend?._id}
               className='w-full flex gap-4 items-center cursor-pointer'
+              onClick={()=>profileView(friend?._id)}
             >
               <img
                 src={friend?.profileUrl ?? NoProfile}

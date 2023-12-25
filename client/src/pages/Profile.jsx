@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import FriendsCard from "../components/FriendsCard";
@@ -6,20 +6,42 @@ import Loading from "../components/Loading";
 import PostCard from "../components/PostCard";
 import ProfileCard from "../components/ProfileCard";
 import TopBar from "../components/TopBar";
+import { deletePost, fetchPosts, getUserInfo, likePost, viewUserProfile } from "../utils";
 
-import { posts } from "../assets/data";
 
 const Profile = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
-  // const { posts } = useSelector((state) => state.posts);
+  const { posts } = useSelector((state) => state.posts);
   const [userInfo, setUserInfo] = useState(user);
   const [loading, setLoading] = useState(false);
+  
+  const uri="/posts/get-user-post/"+id
+  const handleDelete =async (id) => {
+    await deletePost(id,user?.token)
+    await getPosts()
+  };
+  const handleLikePost = async(uri) => {
+    await likePost(uri ,user?.token)
+    await getPosts()
+  };
 
-  const handleDelete = () => {};
-  const handleLikePost = () => {};
+  const getUser=async()=>{
+    const res= await getUserInfo(user?.token , id)
+    setUserInfo(res)
+  }
+  const getPosts=async()=>{
+    await fetchPosts(user?.token,dispatch,uri)
+    setLoading(false)
+  }
+  useEffect(() => {
+    setLoading(true)
+    getUser()
+    getPosts()
+  }, [id])
 
+  //  console.log(user);
   return (
     <>
       <div className='home w-full px-0 lg:px-10 pb-20 2xl:px-40 bg-bgColor lg:rounded-lg h-screen overflow-hidden'>
@@ -27,7 +49,7 @@ const Profile = () => {
         <div className='w-full flex gap-2 lg:gap-4 md:pl-4 pt-5 pb-10 h-full'>
           {/* LEFT */}
           <div className='hidden w-1/3 lg:w-1/4 md:flex flex-col gap-6 overflow-y-auto'>
-            <ProfileCard user={userInfo} />
+            <ProfileCard user={userInfo}  />
 
             <div className='block lg:hidden'>
               <FriendsCard friends={userInfo?.friends} />

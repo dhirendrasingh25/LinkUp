@@ -129,6 +129,7 @@ export const sendFriendRequest = async (token, id) => {
 
 export const viewUserProfile = async (token, id) => {
   try {
+    // console.log(token, id);
     const res = await apiRequest({
       url: "/users/profile-view",
       token: token,
