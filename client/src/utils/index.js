@@ -3,7 +3,8 @@ import dotenv from "dotenv";
 import { setPosts } from "../redux/postSlice";
 // const cloudId = process.env.REACT_APP_CLOUDNARY_ID;
 
-const APP_URL = "http://localhost:8080";
+const APP_URL = " https://linkup-mern.onrender.com";
+// "http://localhost:8080";
 
 export const API = axios.create({
   baseURL: APP_URL,
@@ -39,7 +40,7 @@ export const handleFileUpload = async (uploadFile) => {
   // console.log(formData);
   try {
     const response = await axios.post(
-      `https://api.cloudinary.com/v1_1//image/upload`,
+      `https://api.cloudinary.com/v1_1/dzpmwlc9b/image/upload`,
       formData
     );
     // console.log(response);
