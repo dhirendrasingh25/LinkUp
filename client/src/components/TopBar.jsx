@@ -63,9 +63,7 @@ const TopBar = () => {
         <button onClick={() => handleTheme()}>
           {theme ? <BsMoon /> : <BsSunFill />}
         </button>
-        <div className='hidden lg:flex'>
-          <IoMdNotificationsOutline />
-        </div>
+
 
         <div>
           <CustomButton
