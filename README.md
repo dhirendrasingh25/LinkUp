@@ -26,12 +26,23 @@ Welcome to LinkUp, a social media app where users can connect, share, and engage
 
 ###### Responsive UI Design: Enjoy a seamless experience across different devices.
 
-#### Technologies
+### Technologies
 
-###### Frontend: React
+#### Client-Side Technologies
+- Frontend Framework: React
+- Build Tool: Vite
+- Styling: Tailwind CSS
+- State Management: Redux Toolkit
+- Form Handling: React Hook Form
+- Icons: React Icons
+- Routing: React Router DOM
+- Image and Video Uploads: Cloudinary
+- API Calls: Axios
+- Date and Time Formatting: Moment.js
+
+####  Server-Side Technologies
 ###### Backend: Node.js, Express, MongoDB
-###### Key Packages: 
-
+###### Backend Key Packages: 
 - bcryptjs (password hashing)
 - body-parser (parsing incoming request bodies)
 - cloudinary (image and video uploads)
