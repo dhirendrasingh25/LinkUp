@@ -70,6 +70,12 @@ Welcome to LinkUp, a social media app where users can connect, share, and engage
 ![Screenshot](https://res.cloudinary.com/dzpmwlc9b/image/upload/v1703488733/SOCIALMEDIA/lpddsrmwpemadpwwyezs.png)
 ![Screenshot](https://res.cloudinary.com/dzpmwlc9b/image/upload/v1703488710/SOCIALMEDIA/p1zjcyjwilzfecxdxyul.png)
 
+##### Future Update Plans
+- Personal Chat Feature
+- Channel Creation
+- 24 hours User Status
+
+
 ##### Contribution
 Fork the repository
 Create a new branch for your changes
