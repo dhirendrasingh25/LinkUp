@@ -34,7 +34,6 @@ Welcome to LinkUp, a social media app where users can connect, share, and engage
 - nodemailer (email functionality)
 - nodemon (development server)
 - uuid (generating unique IDs)
-- Getting Started
 
 #### Clone the repository:
     Bash
