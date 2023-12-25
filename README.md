@@ -1,6 +1,16 @@
 # LinkUp
 Welcome to LinkUp, a social media app where users can connect, share, and engage with each other's content!
+
  [Click here to Join LinkUp](https://linkup-ds.netlify.app/).
+ 
+###### How to Get Started:
+- Register your Account
+- Verify your Email
+- Log in to your Account
+
+<b>Note:</b> Currently, the application is optimized for desktop use only and does not offer full support for mobile devices. Mobile compatibility is under development.
+
+
 
 ### Features
 
@@ -9,7 +19,8 @@ Welcome to LinkUp, a social media app where users can connect, share, and engage
 ###### Post Creation: Share text posts, images, and videos with your network.
 
 ###### Liking and Commenting: Interact with posts by liking and commenting on them.
-###### User Connections: Follow other users to see their posts in your feed.
+
+###### User Connections: Connect other users to see their posts in your feed.
 
 ###### Dark Mode and Light Mode: Choose your preferred theme for comfortable viewing.
 
