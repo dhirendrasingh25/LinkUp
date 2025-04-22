@@ -1,6 +1,7 @@
 import Users from "../models/userModel.js";
 import { hashString, createJWT, compareString } from "../utils/index.js";
 import { sendVerificationEmail } from "../utils/sendEmail.js";
+import bcrypt from "bcrypt";
 
 export const register = async (req, res, next) => {
   const { firstName, lastName, email, password } = req.body;
@@ -17,14 +18,15 @@ export const register = async (req, res, next) => {
       return;
     }
     // console.log(password);
-    const hashedPassword = await hashString(password);
+    // const hashedPassword = await hashString(password);
     // console.log(hashedPassword);
 
     const user = await Users.create({
       firstName,
       lastName,
       email,
-      password: hashedPassword,
+      // password: hashedPassword,
+      password,
     });
     //send email verification to user
     // console.log("reached here");
@@ -35,6 +37,8 @@ export const register = async (req, res, next) => {
 
 export const login = async (req, res, next) => {
   const { email, password } = req.body;
+
+  console.log(email + password + "heer");
 
   try {
     //validation
@@ -49,7 +53,7 @@ export const login = async (req, res, next) => {
       select: "firstName lastName location profileUrl -password",
     });
 
-    if (!user) {
+    if (user.email == null) {
       next("Invalid email or password");
       return;
     }
@@ -60,9 +64,8 @@ export const login = async (req, res, next) => {
       );
       return;
     }
-
-    // compare password
-    const isMatch = await compareString(password, user?.password);
+    // const isMatch = await compareString(password, user?.password);
+    const isMatch = password === user?.password;
 
     if (!isMatch) {
       next("Invalid email or password");
