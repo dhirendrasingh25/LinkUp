@@ -8,9 +8,9 @@ Welcome to LinkUp, a social media app where users can connect, share, and engage
 - Verify your Email
 - Log in to your Account
 
-<b>Note:</b> Currently, the application is optimized for desktop use only and does not offer full support for mobile devices. Mobile compatibility is under development.
+<b>Note:</b> Currently, the application is optimized for desktop use only and does not offer full support for mobile devices. Mobile compatibility is currently under development.
 
-
+ 
 
 ### Features
 
